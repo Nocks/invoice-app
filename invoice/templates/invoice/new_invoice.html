@@ -1,8 +1,26 @@
-<h1>New Invoice</h1>
-<form method="post">
-    <h3>Bill From</h3>
-    {{ vendor_form.as_p }}
-    <h3>Bill To</h3>
-    {{ client_form.as_p }}
-    {{ invoice_form.as_p }}
-</form>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>New Invoice</title>
+</head>
+<body>
+    <div>
+        <h1>New Invoice</h1>
+        <form method="post">
+            {% csrf_token %}
+            <h3>Bill From</h3>
+            {{ vendor_form.as_p }}
+            <h3>Bill To</h3>
+            {{ client_form.as_p }}
+            {{ invoice_form.as_p }}
+            {% comment %} <h4>Item List</h4> {% endcomment %}
+            {% comment %} {{ project_item_form.as_p }} {% endcomment %}
+            <button type="submit" name="invoice-process" value="save-draft">Save as Draft</button>
+            <button type="submit" name="invoice-process" value="save-send">Save & Send</button>
+        </form>
+    </div>
+</body>
+</html>
+
+

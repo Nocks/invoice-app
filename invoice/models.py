@@ -1,4 +1,3 @@
-import random
 from django.db import models
 
 
@@ -25,16 +24,15 @@ PAYMENT_TERMS = [
 ]
 
 ALPHABETS = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-
 NUMBERS = [1, 2, 3, 5, 6, 7,8,9,0]
 
 
 class Invoice(models.Model):
-    code = models.CharField(max_length=7, blank=True, unique=True)
+    code = models.CharField(max_length=7, unique=True)
     client = models.ForeignKey(
-        'Client', related_name='invoices', on_delete=models.CASCADE
+        'Client', related_name='invoices', on_delete=models.CASCADE, null=True
     )
-    project_description = models.CharField(max_length=60)
+    project_description = models.CharField(max_length=60, null=True)
     status = models.CharField(
         max_length=7,
         choices=INVOICE_STATUS,
@@ -44,30 +42,19 @@ class Invoice(models.Model):
         max_length=6,
         choices=PAYMENT_TERMS,
         default=NET_30,
-        blank=False,
-        null=False
     )
-    date = models.DateField(auto_now_add=False, auto_now=False)
-    due_date = models.DateField(auto_now=False, auto_now_add=False)
-    total = models.DecimalField(max_digits=7, decimal_places=2)
+    date = models.DateField(auto_now_add=False, auto_now=False, null=True)
+    due_date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    total = models.DecimalField(max_digits=7, decimal_places=2, default=500)
 
     def __str__(self):
-        return self.project_description
-    
-    def save(self, *args, **kwargs):
-        generated_code = '#'
-        for i in range(2):
-            generated_code += random.choice(ALPHABETS)
-        for i in range(4):
-            generated_code += str(random.choice(NUMBERS))
-        self.code = generated_code
-        super().save(*args, **kwargs)
+        return self.code
 
 
 class Client(models.Model):
-    # invoice_code = models.ForeignKey(
-    #     Invoice, related_name='clients', on_delete=models.CASCADE
-    # )
+    invoice_code = models.ForeignKey(
+        Invoice, related_name='clients', on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=254)
     street_address = models.CharField(max_length=70)
@@ -80,13 +67,13 @@ class Client(models.Model):
 
 
 class ProjectItem(models.Model):
-    # invoice_code = models.ForeignKey(
-    #     Invoice, related_name='clients', on_delete=models.CASCADE
-    # )
-    name = models.CharField(max_length=80)
-    quantity = models.PositiveSmallIntegerField()
-    price = models.DecimalField(max_digits=7, decimal_places=2)
-    total = models.DecimalField(max_digits=7, decimal_places=2)
+    invoice_code = models.ForeignKey(
+        Invoice, related_name='project_items', on_delete=models.CASCADE
+    )
+    item_name = models.CharField(max_length=80)
+    item_quantity = models.PositiveSmallIntegerField()
+    item_price = models.DecimalField(max_digits=7, decimal_places=2)
+    item_total = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
         return self.name
@@ -94,11 +81,11 @@ class ProjectItem(models.Model):
 
 class Vendor(models.Model):
     # It will be great to have user on this model
-    name = models.CharField(max_length=80)
-    street_address = models.CharField(max_length=70)
-    city = models.CharField(max_length=30)
-    post_code = models.CharField(max_length=10)
-    country = models.CharField(max_length=50)
+    v_name = models.CharField(max_length=80)
+    v_street_address = models.CharField(max_length=70)
+    v_city = models.CharField(max_length=30)
+    v_post_code = models.CharField(max_length=10)
+    v_country = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

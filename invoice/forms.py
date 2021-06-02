@@ -1,5 +1,5 @@
 from django import forms
-from . models import Invoice, Vendor, Client
+from . models import Vendor, Client, Invoice, ProjectItem
 
 
 class InvoiceForm(forms.ModelForm):
@@ -8,7 +8,6 @@ class InvoiceForm(forms.ModelForm):
         model = Invoice
         fields = [
             "project_description",
-            "status",
             "date",
             "payment_terms",
         ]
@@ -33,8 +32,34 @@ class VendorForm(forms.ModelForm):
     class Meta:
         model = Vendor
         fields = [
-            "street_address",
-            "city",
-            "post_code",
-            "country",
+            "v_name",
+            "v_street_address",
+            "v_city",
+            "v_post_code",
+            "v_country",
         ]
+        labels = {
+            "v_name": "Name",
+            "v_street_address": "Street Address",
+            "v_city": "City",
+            "v_post_code": "Post Code",
+            "v_country": "Country"
+        }
+
+
+class ProjectItemForm(forms.ModelForm):
+
+    class Meta:
+        model = ProjectItem
+        fields = [
+            "item_name",
+            "item_quantity",
+            "item_price",
+            "item_total"
+        ]
+        labels = {
+            "item_name": "Name",
+            "item_quantity": "Quantity",
+            "item_price": "Price",
+            "item_total": "Total"
+        }
