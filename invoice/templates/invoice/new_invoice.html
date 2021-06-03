@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,12 +15,17 @@
             <h3>Bill To</h3>
             {{ client_form.as_p }}
             {{ invoice_form.as_p }}
-            {% comment %} <h4>Item List</h4> {% endcomment %}
-            {% comment %} {{ project_item_form.as_p }} {% endcomment %}
+            <h4>Item List</h4>
+            {{ project_item_form.as_p }}
+            <br />
+            {{ project_item_form.as_p }}
+            <br />
             <button type="submit" name="invoice-process" value="save-draft">Save as Draft</button>
             <button type="submit" name="invoice-process" value="save-send">Save & Send</button>
+            <br /><br />
         </form>
     </div>
+    <script src="{% static 'js/new_invoice.js' %}"></script>
 </body>
 </html>
 
