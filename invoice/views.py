@@ -8,7 +8,7 @@ from . models import Client, Invoice, ProjectItem
 
 
 ALPHABETS = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-NUMBERS = [1, 2, 3, 5, 6, 7,8,9,0]
+NUMBERS = [1, 2, 3, 5, 6, 7, 8, 9, 0]
 
 
 def generate_invoice_code():
@@ -70,6 +70,7 @@ def create_invoice(request):
                 country=client_form.cleaned_data["country"]
             )
 
+            # Create project items
             for i in range(len(request.POST.getlist("item_name"))):
                 ProjectItem.objects.create(
                     invoice_code=Invoice.objects.get(code=generated_invoice_code),
@@ -109,7 +110,6 @@ def create_invoice(request):
             ).aggregate(Sum('item_total')).get('item_total__sum')
             # Save the newly created invoice
             new_invoice.save()
-
 
     vendor_form = VendorForm()
     client_form = ClientForm()
