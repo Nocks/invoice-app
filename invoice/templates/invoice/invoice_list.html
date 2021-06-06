@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Invoice List</title>
+  <meta name="List of Invoices" content="Available list of Invoices">
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Invoices<h1>
+            <p>There are {{invoice.count}} invoices</p>
+        </div>
+        <div>Filter by status</div>
+        <div>
+            <button>New Invoice</button>
+        </div>
+    </header>
+    <div class="container">
+        <div class="invoice-wrapper">
+            <div>{{invoice.code}}</div>
+            <div>{{invoice.due_date}}</div>
+            <div>{{invoice.client_name}}</div>
+            <div>{{invoice.total}}</div>
+            <div>{{invoice.status}}</div>
+        </div>
+    </div>
+  <script src="js/scripts.js"></script>
+</body>
+</html>

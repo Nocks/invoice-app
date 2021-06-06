@@ -3,6 +3,7 @@ import random
 from django.db.models import Sum
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic.list import ListView
 from . forms import InvoiceForm, VendorForm, ClientForm, ProjectItemForm
 from . models import Client, Invoice, ProjectItem
 
@@ -124,3 +125,8 @@ def create_invoice(request):
             'project_item_form': project_item_form,
         }
     )
+
+
+class InvoiceListView(ListView):
+
+    model = Invoice
