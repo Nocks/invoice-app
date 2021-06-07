@@ -1,0 +1,53 @@
+body {
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+header {
+    margin-bottom: 3rem;
+}
+
+.new-invoice a {
+    text-decoration: none;
+}
+
+.invoice-wrapper, header {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.invoice-wrapper {
+    margin-bottom: 2em;
+}
+
+.invoice-item {
+    display: flex;
+    width: 100%;
+}
+
+.invoice-code {
+    font-weight: bold;
+}
+
+.invoice-item .due-date {
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.invoice-item .client {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.invoice-item.total,
+.invoice-item.status {
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.invoice-item.status {
+    align-items: flex-end;
+    justify-content: center;
+}

@@ -1,29 +1,41 @@
+{% load static %}
+{% load humanize %}
 <html lang="en">
 <head>
   <meta charset="utf-8">
 
   <title>Invoice List</title>
   <meta name="List of Invoices" content="Available list of Invoices">
+  <link href="{% static 'styles/css/styles.css' %}" rel="stylesheet" >
 </head>
 <body>
     <header>
         <div>
-            <h1>Invoices<h1>
-            <p>There are {{invoice.count}} invoices</p>
+            <h1>Invoices</h1>
+            <p>
+                There {% if invoice_list.count > 1 %} are{% else %}is{% endif %} 
+                {{invoice_list.count}} invoice{{invoice_list.count|pluralize}}
+            </p>
         </div>
         <div>Filter by status</div>
         <div>
-            <button>New Invoice</button>
+            <button class="new-invoice"><a href="{% url 'create-invoice' %}">New Invoice</a></button>
         </div>
     </header>
     <div class="container">
-        <div class="invoice-wrapper">
-            <div>{{invoice.code}}</div>
-            <div>{{invoice.due_date}}</div>
-            <div>{{invoice.client_name}}</div>
-            <div>{{invoice.total}}</div>
-            <div>{{invoice.status}}</div>
-        </div>
+        {% for invoice in invoice_list %}
+            <div class="invoice-wrapper">
+                <div class="invoice-item invoice-code">
+                    <p>{{invoice.code}}</p>
+                </div>
+                <div class="invoice-item due-date">Due {{invoice.due_date|date:"d M Y"}}</div>
+                <div class="invoice-item client">{{invoice.client}}</div>
+                <div class="invoice-item total">
+                    <P>£{{invoice.total|intcomma}}</P>
+                </div>
+                <div class="invoice-item status">{{invoice.status|title}}</div>
+            </div>
+        {% endfor %}
     </div>
   <script src="js/scripts.js"></script>
 </body>

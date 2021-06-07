@@ -2,7 +2,8 @@ import datetime
 import random
 from django.db.models import Sum
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.views.generic.list import ListView
 from . forms import InvoiceForm, VendorForm, ClientForm, ProjectItemForm
 from . models import Client, Invoice, ProjectItem
@@ -111,6 +112,8 @@ def create_invoice(request):
             ).aggregate(Sum('item_total')).get('item_total__sum')
             # Save the newly created invoice
             new_invoice.save()
+        
+        return HttpResponseRedirect(reverse('invoice-list'))
 
     vendor_form = VendorForm()
     client_form = ClientForm()
@@ -130,3 +133,6 @@ def create_invoice(request):
 class InvoiceListView(ListView):
 
     model = Invoice
+    template_name = 'invoice/invoice_list.html'
+
+    ordering = ['due_date']
